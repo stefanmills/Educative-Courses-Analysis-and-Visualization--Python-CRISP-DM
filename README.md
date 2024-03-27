@@ -76,8 +76,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Pie Chart Visual for Subscribers Per Subject
-plt.pie(subject_subs["Number_of_Subscribers"], autopct='%1.1f%%', labels=subject_subs.loc[:, 'Subject'], shadow=True, colors=custom_palette, startangle=45)
+subject_subs=dataset.copy()
+#plt.figure(figsize=(8,8))
+custom_palette = sns.color_palette(["#607C3C",  "#809C13", "#ABC32F", "#B5E550"])
+plt.pie(subject_subs["Number_of_Subscribers"],autopct = '%.1f%%',labels=subject_subs.loc[:,'Subject'],shadow=True, colors=custom_palette,startangle=45);
+#plt.title('Ratio of Subscribers Per Subject',fontsize=16, fontweight='bold')
 plt.show()
+
 ```
 
 ### Bar Chart for Average Number of Subscribers Per Subject
@@ -86,8 +91,26 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Bar Chart for Average Number of Subscribers Per Subject
-ax=sns.barplot(data=avg_sub_subject, x=avg_sub_subject['Subject'], y=avg_sub_subject['Number_of_Subscribers'], palette=custom_palette, order=avg_sub_subject['Subject'])
+avg_sub_subject=dataset
+avg_sub_subject=avg_sub_subject.sort_values(by='Number_of_Subscribers', ascending=False)
+custom_palette = sns.color_palette(["#607C3C",  "#809C13", "#ABC32F", "#B5E550"])
+ax=sns.barplot(data=avg_sub_subject,x=avg_sub_subject['Subject'],y=avg_sub_subject['Number_of_Subscribers'],
+            palette=custom_palette,order=avg_sub_subject['Subject'])
+
+for p in ax.patches:
+    height = p.get_height()
+    ax.annotate(f'{int(height)}', (p.get_x() + p.get_width() / 2., height),
+                ha='center', va='center', fontsize=10, color='black', xytext=(0, 5),
+                textcoords='offset points')
+
+plt.xticks(fontsize=7,fontweight='bold')  
+plt.yticks([])
+plt.xlabel(None)  # X-axis label
+plt.ylabel('Avg Subscribers Number', fontsize=10,labelpad=15)  # Y-axis label
+#plt.title('Average Number of Subscribers Per Subject', fontsize=16, fontweight='bold',pad=20) 
+
 plt.show()
+
 ```
 
 ### Bar Chart for Average Content Duration Per Subject
@@ -96,8 +119,20 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Bar Chart for Average Content Duration Per Subject
-ax=sns.barplot(data=avg_dur_subj, x=avg_dur_subj['Subject'], y=avg_dur_subj['Content_Duration'], palette=custom_palette, order=avg_dur_subj['Subject'])
+avg_dur_subj=dataset.copy()
+avg_dur_subj=avg_dur_subj.sort_values(by='Content_Duration', ascending=False)
+
+custom_palette = sns.color_palette(["#607C3C",  "#809C13", "#ABC32F", "#B5E550"])
+ax=sns.barplot(data=avg_dur_subj,x=avg_dur_subj['Subject'],y=avg_dur_subj['Content_Duration'],
+            palette=custom_palette,order=avg_dur_subj['Subject'])
+
+    
+plt.xticks(fontsize=7, fontweight='bold') 
+plt.xlabel(None)  # X-axis label
+plt.ylabel('Average Duration (Hrs)', fontsize=14,labelpad=15)  # Y-axis label
+#plt.title('Average Content Duration Per Subject', fontsize=14, fontweight='bold',pad=20) 
 plt.show()
+
 ```
 
 ### Bar Chart for Average Price Per Subject for Each Level
@@ -106,8 +141,17 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Bar Chart for Average Price Per Subject for Each Level
-sns.catplot(data=pivot_data, x='Subject', y='Price', hue='Level', kind='bar', aspect=2)
+pivot_data=dataset.copy()
+
+custom_palette =["#607C3C",  "#809C13", "#ABC32F", "#B5E550"]
+sns.set_palette(custom_palette)
+sns.catplot(data=pivot_data,x='Subject',y='Price',hue='Level', kind='bar',aspect=2)
+plt.xticks(fontsize=8, fontweight='bold')
+plt.xlabel(None)
+plt.ylabel('Average Price ($)', fontsize=14)
+#plt.title(' Average Price Per Subject For Each Level',  fontsize=16, fontweight='bold',pad=20)
 plt.show()
+
 ```
 
 ### Bar Chart for Average Rating Per Subject for Each Level
@@ -116,8 +160,17 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Bar Chart for Average Rating Per Subject for Each Level
-sns.catplot(data=pivot_data, x='Subject', y='Rating', hue='Level', kind='bar', aspect=1.5)
+pivot_data=dataset.copy()
+custom_palette =["#607C3C",  "#809C13", "#ABC32F", "#B5E550"]
+sns.set_palette(custom_palette)
+sns.catplot(data=pivot_data,x='Subject',y='Rating',hue='Level', kind='bar',aspect=1.5)
+plt.xticks(fontsize=8, fontweight='bold')
+plt.xlabel(None)
+plt.ylabel('Average Rating', fontsize=14)
+#plt.title('Average Rating Per Subject For Each Level',  fontsize=16, fontweight='bold',pad=20)
+
 plt.show()
+
 ```
 
 ### Line Plot for Revenue Generated Each Year
@@ -126,8 +179,20 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Line Plot for Revenue Generated Each Year
-sns.relplot(data=yoy_subj_revenue, x=yoy_subj_revenue['Published_Year'], y=yoy_subj_revenue['Revenue'], kind="line", markers=True, legend=False, aspect=1.5)
+yoy_subj_revenue=dataset.copy()
+line_color = "#607C3C"
+sns.set_palette([line_color]) 
+sns.relplot(data=yoy_subj_revenue,x=yoy_subj_revenue['Published_Year'], y=yoy_subj_revenue['Revenue'],kind="line",markers=True,legend=False,aspect=1.5)
+for i, value in enumerate(yoy_subj_revenue['Revenue']):
+    plt.text(yoy_subj_revenue['Published_Year'].iloc[i], value, f"${value/1000000:.2f}M", ha='center', va='bottom')
+
+plt.xticks(fontsize=8, fontweight='bold')
+plt.yticks(([]))
+plt.xlabel(None)
+plt.ylabel('Revenue', fontsize=14,labelpad=15)
+#plt.title('Revenue Generated Per Year',  fontsize=16, fontweight='bold',pad=20)
 plt.show()
+
 ``` 
 
 These visualizations were integrated into Power BI Desktop for creating dynamic and interactive reports.
