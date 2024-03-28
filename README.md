@@ -202,6 +202,7 @@ These visualizations were integrated into Power BI Desktop for creating dynamic 
 - Python libraries used: Pandas, Matplotlib, Seaborn
 - Data preprocessing includes unzipping files, merging dataframes, and cleaning operations.
 - Visualization techniques include bar charts, pie charts, and line plots to convey insights effectively.
-- Visualizations are saved in PDF format for future reference.
+- Report Created on Powerbi Extracting data using python scripting in PowerBI
+- Visualizations are saved in png format for future reference.
 
 **Note**: Detailed code snippets are provided for each step in the analysis process. For the full code implementation, please refer to the script provided.
